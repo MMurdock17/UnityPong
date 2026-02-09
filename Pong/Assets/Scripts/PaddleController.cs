@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PaddleController : MonoBehaviour
+public abstract class PaddleController : NetworkedObject
 {
 
     protected float speed = 5f;
@@ -20,9 +20,6 @@ public class PaddleController : MonoBehaviour
         
     }
 
-    protected virtual float GetMovementInput() 
-    {
-        return speed;
-    }
+    protected abstract float GetMovementInput();
 
 }

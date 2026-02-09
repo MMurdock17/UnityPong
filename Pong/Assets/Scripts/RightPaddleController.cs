@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RightPaddleController : PaddleController
+public class RightPaddleController : PaddleController, ICollidable
 {
     // Start is called before the first frame update
     void Start()
@@ -18,9 +18,24 @@ public class RightPaddleController : PaddleController
         transform.position += new Vector3(0, velocity * speed * Time.deltaTime, 0);
     }
 
+    public override void Initialize()
+    {
+
+    }
+
+    public override int GetNetworkId()
+    {
+        return -1;
+    }
+
     protected override float GetMovementInput() 
     {
         return Input.GetAxis("RightPaddle");
+    }
+
+    public void OnHit(Collision2D collision) 
+    {
+
     }
 
 }

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BallMovement : MonoBehaviour
+public class BallMovement : NetworkedObject, ICollidable
 {
 
     private float speed;
@@ -21,10 +21,37 @@ public class BallMovement : MonoBehaviour
     
     }
 
+    public override void Initialize()
+    {
+
+    }
+
+    public override int GetNetworkId()
+    {
+        return -1;
+    }
+
+
+    public void OnHit(Collision2D collision) 
+    {
+        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+
+        Vector2 normal = collision.contacts[0].normal;
+
+        Vector2 newVelocity = Vector2.Reflect(rb.velocity, normal);
+
+        rb.velocity = newVelocity;
+    }
+
     void OnCollisionEnter2D(Collision2D collision) 
     {
 
-        Rigidbody2D rb = GetComponent<Rigidbody2D>();
+        ICollidable collidable = collision.gameObject.GetComponent<ICollidable>();
+
+        if (collidable != null)
+        {
+            collidable.OnHit(collision);
+        }
 
     }
 
